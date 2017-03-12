@@ -19,7 +19,8 @@ var TORRENT_LINKS = [
 	/alivetorrents\.com\/dl\//i,
 	/newtorrents\.info\/down\.php/i,
 	/mininova\.org\/get/i,
-	/kickasstorrents\.com\/torrents/i
+	/kickasstorrents\.com\/torrents/i,
+    /iptorrents\.com\/download\.php\/*\//i
 ];
 
 // open up a session with the background page
@@ -37,7 +38,7 @@ var port = chrome.extension.connect({ name: 'inject' });
 	nothing
 =================================================================================*/
 function clickTorrent(e) {
-	var url = $(this).attr("href");
+	var url = this.href;
 	for (var i = 0; i < TORRENT_LINKS.length; i++) {
 		if (TORRENT_LINKS[i].test(url)) {
 			// begin download of torrent
