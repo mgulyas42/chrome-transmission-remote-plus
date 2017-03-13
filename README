@@ -7,6 +7,11 @@ Legend:
 * Bugfix
 ! Known issue
 
+2017-03-13 v1.0.4
+* Fix "download directory path is not absolute" error. (Closes issue #28) (thanks to zsorizs)
+* Fix configuration resetting to defaults when opened. (thanks to zsorizs)
+* Fix saving of default click action. (thanks to zsorizs)
+
 2015-04-13 v0.9.9.8
 * Fixed filtering (presumably broken for some time due to RPC changes)
 + Added a filtering category 'Active' to filter out stopped/completed torrents. (Closes issue #10).
