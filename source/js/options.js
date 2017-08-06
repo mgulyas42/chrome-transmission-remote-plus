@@ -214,20 +214,20 @@ $(function() {
 	for (var i = 0, dir; dir = dirs[i]; ++i) {
 		addDir(dirs[i].label, dirs[i].dir);
 	}
-	$("#save").bind("click", save);
-	$("#user,#pass").bind("focus", function(){this.type = 'text';});
-	$("#user,#pass").bind("blur", function(){this.type = 'password';});
+	$("#save").on("click", save);
+	$("#user,#pass").on("focus", function(){this.type = 'text';});
+	$("#user,#pass").on("blur", function(){this.type = 'password';});
 });
 
 
 $(function() {
-	$('#dldefault').bind("click", function() {
+	$('#dldefault').on("click", function() {
 		$('#dlpopup').disabled = false;
 	});
-	$('#dlcustom').bind("click", function() {
+	$('#dlcustom').on("click", function() {
 		$('#dlpopup').disabled = true;
 	});
-	$('#adddir').bind("click", function() {
+	$('#adddir').on("click", function() {
 		addDir($('#customlabel').val(), $('#customdir').val());
 	});
 });

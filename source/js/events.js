@@ -41,7 +41,7 @@ $(function () {
 	});
 
 	// filter torrents by name
-	$('#filter_input').bind('input', function () {
+	$('#filter_input').on('input', function () {
 		localStorage.torrentFilter = this.value;
 		applyFilter();
 	});
