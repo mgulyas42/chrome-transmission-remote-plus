@@ -84,16 +84,16 @@ function save() {
 	localStorage.popuprefreshinterval = $('#popuprefreshinterval').val();
 
 	// send message to background page to en/disable notifications
-	port.postMessage({ notificationstorrentfinished: $('#notificationstorrentfinished').checked });
-	port.postMessage({ notificationsnewtorrent: $('#notificationsnewtorrent').checked });
+	port.postMessage({ notificationstorrentfinished: $('#notificationstorrentfinished').prop("checked") });
+	port.postMessage({ notificationsnewtorrent: $('#notificationsnewtorrent').prop("checked") });
 
-	localStorage.start_paused = $('#start_paused').checked;
+	localStorage.start_paused = $('#start_paused').prop("checked");
 	
 	//whether to handle the torrent click (i.e. download remotely) or leave to chrome to handle (download locally)
-	localStorage.clickAction = $("input[name='clickaction']:checked").val()
+	localStorage.clickAction = $("input[name='clickaction']:checked").val();
 
 	//whether or not to show the download popup
-	localStorage.dlPopup = $('#dlpopup').checked;
+	localStorage.dlPopup = $('#dlpopup').prop("checked");
 
 	// loop through the custom directories and save them
 	var table = document.getElementById('customdirs');
@@ -130,7 +130,7 @@ $(function() {
 		"sessionId"						: "",
 		"torrentType"					: -1,
 		"torrentFilter"					: ""
-	}
+	};
 
 	/*
 	  Credit to Quentin at StackOverflow for this trick
@@ -208,7 +208,7 @@ $(function() {
 
 	// download
 	document.getElementById(localStorage.clickAction).checked = true;
-	$('#dlpopup').checked = (localStorage.dlPopup === 'true');
+	$('#dlpopup').prop("checked", (localStorage.dlPopup === 'true'));
 
 	// display the list of custom download directories
 	for (var i = 0, dir; dir = dirs[i]; ++i) {
