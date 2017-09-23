@@ -70,34 +70,32 @@ function showNotification(title, message) {
 		nothing
 =================================================================================*/
 function rpcTransmission(args, method, tag, callback) {
-	$.ajax(
-		{
-			url: localStorage.server + localStorage.rpcPath,
-			type: 'POST',
-			username: localStorage.user,
-			password: localStorage.pass,
-			headers: {'X-Transmission-Session-Id': localStorage.sessionId},
-			data: '{ "arguments": {' + args + '}, "method": "' + method + '"' + (tag ? ', "tag": ' + tag : '') + '}'
+	$.ajax({
+		url: localStorage.server + localStorage.rpcPath,
+		type: 'POST',
+		username: localStorage.user,
+		password: localStorage.pass,
+		headers: {'X-Transmission-Session-Id': localStorage.sessionId},
+		data: '{ "arguments": {' + args + '}, "method": "' + method + '"' + (tag ? ', "tag": ' + tag : '') + '}'
+	}).done(function(data, textStatus, jqXHR) {
+		if (callback) {
+			callback(jqXHR.responseJSON);
 		}
-	).complete(
-		function(jqXHR, textStatus) {
+	}).fail(function(jqXHR, textStatus, errorThrown) {
+		if (errorThrown == 'Conflict') {
+			//X-Transmission-Session-Id should only be included if we didn't include it when we sent our request
 			var xSid = jqXHR.getResponseHeader('X-Transmission-Session-Id');
-			if(xSid) {	//X-Transmission-Session-Id should only be included if we didn't include it when we sent our request
-				localStorage.sessionId = xSid;
-				rpcTransmission(args, method, tag, callback);
-				return;
-			}
-			if (textStatus == "error"){		//If the server is unreachable, get null request
-				callback(JSON.parse(
-					'{"arguments":{"torrents":[{"addedDate":0,"doneDate":0,"downloadDir":"","eta":0,"id":0,"leftUntilDone":0,"metadataPercentComplete":0,"name":"Unable to connect to '+localStorage.server+'.","rateDownload":0,"rateUpload":0,"recheckProgress":0,"sizeWhenDone":0,"status":0,"uploadedEver":0}]},"result":"Unable to connect to server.","tag":1}'
-				));
-				return;
-			}
-			if (callback) {
-				callback(jqXHR.responseJSON);
-			}
+			localStorage.sessionId = xSid;
+			rpcTransmission(args, method, tag, callback);
+			return;
+		} else {
+			console.log("ajax error: " + errorThrown);
+			callback(JSON.parse(
+				'{"arguments":{"torrents":[{"addedDate":0,"doneDate":0,"downloadDir":"","eta":0,"id":0,"leftUntilDone":0,"metadataPercentComplete":0,"name":"Unable to connect to '+localStorage.server+'.","rateDownload":0,"rateUpload":0,"recheckProgress":0,"sizeWhenDone":0,"status":0,"uploadedEver":0}]},"result":"Unable to connect to server.","tag":1}'
+			));
+			return;
 		}
-	);
+	});
 }
 
 /*=================================================================================
