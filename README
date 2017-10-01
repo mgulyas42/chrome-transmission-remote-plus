@@ -7,6 +7,10 @@ Legend:
 * Bugfix
 ! Known issue
 
+2017-10-01 v1.0.5
+* Update to jQuery v3.2.1
+* Fix some options not being saved
+
 2017-03-13 v1.0.4
 * Fix "download directory path is not absolute" error. (Closes issue #28) (thanks to zsorizs)
 * Fix configuration resetting to defaults when opened. (thanks to zsorizs)
