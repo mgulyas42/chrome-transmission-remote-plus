@@ -113,7 +113,7 @@ function getTorrent(url) {
 	var dirs = (localStorage.dirs) ? JSON.parse(localStorage.dirs) : [];
 	// show download popup?
 	if (localStorage.dlPopup === 'false') {
-		dlTorrent({ 'url': url, 'paused': localStorage.start_paused });
+		dlTorrent({ 'url': url, 'paused': (localStorage.start_paused === 'true') });
 	} else {
 		// don't use base64 on magnet links
 		if (url.toLowerCase().indexOf('magnet:') == 0) {	//it's a magnet
