@@ -43,7 +43,7 @@ function Torrent() {
     console.log(filter);
     console.log(type);
 
-    if ((type === -1 || this.status === type || type.indexOf(this.status) > -1) && this.name.search(filter) > -1) {
+    if ((type === '-1' || this.status === type || type.indexOf(this.status) > -1) && this.name.search(filter) > -1) {
       jQuery('#list').append(oRoot);
     } else {
       jQuery('#list_hidden').append(oRoot);
