@@ -7,6 +7,9 @@ Legend:
 * Bugfix
 ! Known issue
 
+2017-10-02 v1.0.6
+* Fix adding torrents in the paused state
+
 2017-10-01 v1.0.5
 * Update to jQuery v3.2.1
 * Fix some options not being saved
