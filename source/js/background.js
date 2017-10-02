@@ -1,3 +1,4 @@
+/* global getFile parseTorrent encodeFile */
 
 // global variables
 var completedTorrents = ''; // string of completed torrents to prevent duplicate notifications
@@ -79,49 +80,6 @@ function rpcTransmission(args, method, tag, callback) {
 }
 
 /**
- * attempt to download url as a torrent file
- * @param {String} url - URL to download
- */
-function getTorrent(url) {
-  var dirs = (localStorage.dirs) ? JSON.parse(localStorage.dirs) : [];
-  // show download popup?
-  if (localStorage.dlPopup === 'false') {
-    dlTorrent({url: url, paused: (localStorage.start_paused === 'true')});
-  } else if (url.toLowerCase().indexOf('magnet:') === 0) { // it's a magnet
-  // don't use base64 on magnet links
-    torrentInfo['magnet'] = {dirs: dirs, url: url};
-    chrome.windows.create({
-      url    : 'downloadMagnet.html',
-      type   : 'popup',
-      width  : 852,
-      height : 190,
-      left   : screen.width / 2 - 852 / 2,
-      top    : screen.height / 2 - 160 / 2,
-    });
-  } else { // it's a .torrent
-    getFile(url, function (file) {
-      parseTorrent(file, function (torrent) {
-        if (torrent !== null) {
-          encodeFile(file, function (data) {
-            torrentInfo['torrent'] = {torrent: torrent, data: data, dirs: dirs};
-            chrome.windows.create({
-              url    : 'downloadTorrent.html',
-              type   : 'popup',
-              width  : 850,
-              height : 610,
-              left   : (screen.width / 2) - 425,
-              top    : (screen.height / 2) - 300,
-            });
-          });
-        } else {
-          alert('This isn\'t a torrent file.');
-        }
-      });
-    });
-  }
-}
-
-/**
  * Download the torrent
  * @param {Object} request - Object containg data needed to download torrent
  */
@@ -198,9 +156,51 @@ function dlTorrent(request) {
         255,
       ]);
       showNotification('Adding torrent failed', '');
-      alert('Torrent download failed!\n\n' + response.result);
     }
   });
+}
+
+/**
+ * attempt to download url as a torrent file
+ * @param {String} url - URL to download
+ */
+function getTorrent(url) {
+  var dirs = (localStorage.dirs) ? JSON.parse(localStorage.dirs) : [];
+  // show download popup?
+  if (localStorage.dlPopup === 'false') {
+    dlTorrent({url: url, paused: (localStorage.start_paused === 'true')});
+  } else if (url.toLowerCase().indexOf('magnet:') === 0) { // it's a magnet
+  // don't use base64 on magnet links
+    torrentInfo['magnet'] = {dirs: dirs, url: url};
+    chrome.windows.create({
+      url    : 'downloadMagnet.html',
+      type   : 'popup',
+      width  : 852,
+      height : 190,
+      left   : screen.width / 2 - 852 / 2,
+      top    : screen.height / 2 - 160 / 2,
+    });
+  } else { // it's a .torrent
+    getFile(url, function (file) {
+      parseTorrent(file, function (torrent) {
+        if (torrent !== null) {
+          encodeFile(file, function (data) {
+            torrentInfo['torrent'] = {torrent: torrent, data: data, dirs: dirs};
+            chrome.windows.create({
+              url    : 'downloadTorrent.html',
+              type   : 'popup',
+              width  : 850,
+              height : 610,
+              left   : (screen.width / 2) - 425,
+              top    : (screen.height / 2) - 300,
+            });
+          });
+        } else {
+          // This isn't a torrent file?
+        }
+      });
+    });
+  }
 }
 
 /**
@@ -208,20 +208,10 @@ function dlTorrent(request) {
  */
 function notificationRefresh() {
   rpcTransmission('"fields": [ "id", "name", "status", "leftUntilDone" ], "ids": "recently-active"', 'torrent-get', 10, function (response) {
-    var notification;
-
-    for (let i = 0, torrent; torrent = response.arguments.torrents[i]; ++i) {
+    for (let i = 0; i < response.arguments.torrents[i].length; i++) {
+      let torrent = response.arguments.torrents[i];
       if (torrent.status === 16 && torrent.leftUntilDone === 0 && completedTorrents.indexOf(torrent.id) < 0) {
-        notification = webkitNotifications.createNotification(
-          'images/icon48.png',
-          'Torrent Download Complete',
-          torrent.name + ' has finished downloading.'
-        );
-        notification.show();
-
-        // hide the notification after 30 seconds
-        setTimeout(function () { notification.cancel(); }, '30000');
-
+        showNotification('Torrent Download Complete', torrent.name + ' has finished downloading.');
         // mark the completed torrent so another notification isn't displayed for it
         completedTorrents += torrent.id + ',';
       }
