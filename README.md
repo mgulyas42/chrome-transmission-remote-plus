@@ -22,16 +22,16 @@ Based on Remote Transmission Plus
 ## Changelog
 
 2017-10-02 v1.0.6
-* Fix adding torrents in the paused state
+* Fix adding torrents in the paused state (thanks slokhorst)
 
 2017-10-01 v1.0.5
-* Update to jQuery v3.2.1
-* Fix some options not being saved
+* Update to jQuery v3.2.1 (thanks slokhorst)
+* Fix some options not being saved (thanks slokhorst)
 
 2017-03-13 v1.0.4
-* Fix "download directory path is not absolute" error. (Closes issue #28) (thanks to zsorizs)
-* Fix configuration resetting to defaults when opened. (thanks to zsorizs)
-* Fix saving of default click action. (thanks to zsorizs)
+* Fix "download directory path is not absolute" error. (Closes issue #28) (thanks zsorizs)
+* Fix configuration resetting to defaults when opened. (thanks zsorizs)
+* Fix saving of default click action. (thanks zsorizs)
 
 2016-02-03 v1.0.3
 * Fix capturing links for dynamically loaded content
@@ -40,7 +40,7 @@ Based on Remote Transmission Plus
 * Fix for last version erasing settings
 
 2015-06-03 v1.0.0
-* Add support for adding new custom location from save popup (thanks wader on Github)
+* Add support for adding new custom location from save popup (thanks wader)
 
 2015-04-15 v0.9.9.9
 * Ensure clients' filters are not changed erroneously
