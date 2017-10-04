@@ -253,11 +253,19 @@ chrome.extension.onConnect.addListener(function (port) {
       break;
     case 'options':
       port.onMessage.addListener(function (msg) {
-        // stop the notification timer
-        clearTimeout(notificationTimer);
+        switch (msg.method) {
+          case 'settings-saved':
+            // stop the notification timer
+            clearTimeout(notificationTimer);
 
-        // start it up again if it's enabled
-        if (msg.notifications) {notificationRefresh();}
+            // start it up again if it's enabled
+            if (localStorage.notificationstorrentfinished === 'true') {
+              notificationRefresh();
+            }
+            break;
+          default:
+            break;
+        }
       });
       break;
     case 'downloadMagnet':
