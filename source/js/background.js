@@ -210,7 +210,8 @@ function notificationRefresh() {
   rpcTransmission('"fields": [ "id", "name", "status", "leftUntilDone" ], "ids": "recently-active"', 'torrent-get', 10, function (response) {
     for (let i = 0; i < response.arguments.torrents.length; i++) {
       let torrent = response.arguments.torrents[i];
-      if (torrent.status === TR_STATUS_SEED && torrent.leftUntilDone === 0 && completedTorrents.indexOf(torrent.id) < 0) {
+      if ((torrent.status === TR_STATUS_SEED_WAIT || torrent.status === TR_STATUS_SEED || torrent.status === TR_STATUS_STOPPED) &&
+          torrent.leftUntilDone === 0 && completedTorrents.indexOf(torrent.id) < 0) {
         showNotification('Torrent Download Complete', torrent.name + ' has finished downloading.');
         // mark the completed torrent so another notification isn't displayed for it
         completedTorrents += torrent.id + ',';
