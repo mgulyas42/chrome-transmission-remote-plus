@@ -21,6 +21,9 @@ Based on Remote Transmission Plus
 
 ## Changelog
 
+2017-10-02 v1.0.7
+* Fix notification on completed torrent (thanks slokhorst)
+
 2017-10-02 v1.0.6
 * Fix adding torrents in the paused state (thanks slokhorst)
 
