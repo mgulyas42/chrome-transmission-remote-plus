@@ -95,10 +95,6 @@ function save() {
   localStorage.browserbadgetimeout = jQuery('#browserbadgetimeout').val();
   localStorage.popuprefreshinterval = jQuery('#popuprefreshinterval').val();
 
-  // send message to background page to en/disable notifications
-  port.postMessage({notificationstorrentfinished: jQuery('#notificationstorrentfinished').prop('checked')});
-  port.postMessage({notificationsnewtorrent: jQuery('#notificationsnewtorrent').prop('checked')});
-
   localStorage.start_paused = jQuery('#start_paused').prop('checked');
 
   // whether to handle the torrent click (i.e. download remotely) or leave to chrome to handle (download locally)
@@ -116,6 +112,9 @@ function save() {
   localStorage.dirs = JSON.stringify(dirs);
 
   localStorage.version = chrome.runtime.getManifest().version;
+
+  // send message to background that options were saved
+  port.postMessage({method: 'settings-saved'});
 
   jQuery('#saved').fadeIn(100);
   jQuery('#saved').fadeOut(1000);
