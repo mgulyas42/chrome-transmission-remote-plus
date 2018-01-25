@@ -205,13 +205,17 @@ jQuery(function ($) {
   $('#filter_type').val(localStorage.torrentType || -1);
 
   // initial baseline of torrents, turtle mode, then start the refresh
-  port.postMessage({
-    args   : '"fields": [ "id", "status", "name", "downloadDir", "metadataPercentComplete", "sizeWhenDone", "leftUntilDone", "eta", "rateDownload", "rateUpload", "uploadedEver", "addedDate", "doneDate", "recheckProgress" ]',
-    method : 'torrent-get',
-    tag    : TAG_BASELINE,
-  });
+  // setTimeout is here to workaround an issue on macOS where the popup
+  // sometimes might end up with wrong size. For details see:
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=428044
+  setTimeout(function () {
+    port.postMessage({
+      args   : '"fields": [ "id", "status", "name", "downloadDir", "metadataPercentComplete", "sizeWhenDone", "leftUntilDone", "eta", "rateDownload", "rateUpload", "uploadedEver", "addedDate", "doneDate", "recheckProgress" ]',
+      method : 'torrent-get',
+      tag    : TAG_BASELINE,
+    });
+    refreshPopup();
+  }, 200);
 
   port.postMessage({args: '', method: 'session-get', tag: TAG_TURTLE_MODE});
-
-  refreshPopup();
 });
