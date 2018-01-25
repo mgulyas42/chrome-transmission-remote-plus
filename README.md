@@ -21,7 +21,7 @@ Based on Remote Transmission Plus
 
 ## Changelog
 
-2017-10-02 v1.0.8
+2018-01-25 v1.0.8
 * Fix popup not appearing correctly on OSX (thanks wader)
 
 2017-10-02 v1.0.7
