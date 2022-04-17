@@ -177,8 +177,8 @@ function getTorrent(url) {
       type   : 'popup',
       width  : 852,
       height : 190,
-      left   : screen.width / 2 - 852 / 2,
-      top    : screen.height / 2 - 160 / 2,
+      left   : Math.round(screen.width / 2) - 852 / 2,
+      top    : Math.round(screen.height / 2) - 160 / 2,
     });
   } else { // it's a .torrent
     getFile(url, function (file) {
@@ -191,8 +191,8 @@ function getTorrent(url) {
               type   : 'popup',
               width  : 850,
               height : 610,
-              left   : (screen.width / 2) - 425,
-              top    : (screen.height / 2) - 300,
+              left   : Math.round(screen.width / 2) - 425,
+              top    : Math.round(screen.height / 2) - 300,
             });
           });
         } else {
