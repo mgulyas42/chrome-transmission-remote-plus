@@ -313,7 +313,7 @@ function contextMenuClick(info) {
  * Add link context menu option
  */
 chrome.contextMenus.create({
-  title    : 'Download with Remote Transmission',
+  title    : 'Download Torrent on Pi',
   contexts : ['link'],
   onclick  : contextMenuClick,
   // TODO: watch this http://code.google.com/p/chromium/issues/detail?id=84024
